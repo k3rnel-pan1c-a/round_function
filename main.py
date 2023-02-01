@@ -4,7 +4,7 @@ from random import randint, uniform
 def round_function(num: float, round_to: int = 0) -> float:
     num_abs = abs(num)
 
-    if isinstance(round_to, (float, str, list, dict, tuple)):
+    if not isinstance(round_to, int):
         raise TypeError
 
     if round_to < 0:
@@ -56,4 +56,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    round_function()
