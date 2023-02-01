@@ -1,11 +1,10 @@
-from random import randint, uniform
 
 
 def round_function(num: float, round_to: int = 0) -> float:
     num_abs = abs(num)
 
     if not isinstance(round_to, int):
-        raise TypeError
+        raise TypeError(f"'{type(round_to)}' object cannot be interpreted as an integer")
 
     if round_to < 0:
         if abs(round_to) > len(str(num_abs).split(".")[0]):
@@ -36,24 +35,3 @@ def round_function(num: float, round_to: int = 0) -> float:
             return (2 * (num > 0) - 1) * float(f"0.{before}{after_decimal_point[round_to - 1]}")
 
     return (int((10 ** round_to) * num + ((not num > 0) - 0.5)) - (2 * (not num > 0) - 1)) / 10 ** round_to
-
-
-def main() -> None:
-    correct = 0
-    for _ in range(100_000):
-        n = uniform(-10_000, 10_000)
-        ndigits = randint(-5, 5)
-        a = round(n, ndigits)
-        b = round_function(n, ndigits)
-        if a == b:
-            correct += 1
-            continue
-        print(
-            f"round({n: >22.15f}, {ndigits: })    ->    "
-            f"built-in: {a: >22.15f}\t\tcustom: {b: >22.15f}"
-        )
-    print(f"Correct: {correct / 100_000:%}")
-
-
-if __name__ == "__main__":
-    round_function()
