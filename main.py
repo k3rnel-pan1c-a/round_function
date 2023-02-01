@@ -2,10 +2,13 @@ from random import randint, uniform
 
 
 def round_function(num: float, round_to: int = 0) -> float:
-    if type(round_to) != int:
+    num_abs = abs(num)
+
+    if isinstance(round_to, (float, str, list, dict, tuple)):
         raise TypeError
+
     if round_to < 0:
-        if abs(round_to) > len(str(abs(num)).split(".")[0]):
+        if abs(round_to) > len(str(num_abs).split(".")[0]):
             return 0
         new_num = num * 10 ** round_to
         before_decimal_point, after_decimal_point = str(abs(new_num)).split(".")
@@ -23,24 +26,17 @@ def round_function(num: float, round_to: int = 0) -> float:
             else:
                 return float((int(new_num + 0.5) - 1)) * 10 ** -round_to
 
-    elif int(str(abs(num))[0]) == 0:
+    elif int(str(num_abs)[0]) == 0:
         if round_to == 0:
-            if int(str(abs(num)).split(".")[1][0]) > 4:
-                if num < 0:
-                    return -1
-                else:
-                    return 1
+            if int(str(num_abs).split(".")[1][0]) > 4:  
+                return -1 if num < 0 else 1
             else:
-                if num < 0:
-                    return 0
+                return 0
         else:
             before_decimal_point, after_decimal_point = str(
-                (abs(num) - 0.5 * 10 ** -round_to) + 1 * 10 ** -round_to).split(".")
+                (num_abs - 0.5 * 10 ** -round_to) + 1 * 10 ** -round_to).split(".")
             if int(before_decimal_point) == 1:
-                if num > 0:
-                    return 1
-                else:
-                    return -1
+                return 1 if num > 0 else -1
             before = "".join(after_decimal_point[0:round_to - 1])
             if num > 0:
                 return float(f"0.{before}{after_decimal_point[round_to - 1]}")
