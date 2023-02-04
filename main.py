@@ -1,17 +1,17 @@
 
 
 def round_function(num: float, round_to: int = 0) -> float:
-    num_abs = abs(num)
 
     if not isinstance(round_to, int):
         raise TypeError(f"'{type(round_to)}' object cannot be interpreted as an integer")
 
+    num_abs = abs(num)
     if round_to < 0:
         if abs(round_to) > len(str(num_abs).split(".")[0]):
             return 0.0
         new_num = num * 10 ** round_to
-        before_decimal_point, after_decimal_point = str(abs(new_num)).split(".")
-        if before_decimal_point == "0":
+        after_decimal_point = new_num % 1
+        if 1 > new_num > 0:
             if int(after_decimal_point[0]) > 4:
                 return float((2 * (num > 0) - 1) * 10 ** -round_to)
             else:
@@ -19,7 +19,7 @@ def round_function(num: float, round_to: int = 0) -> float:
         else:
             return float(int(new_num + (not num > 0) - 0.5) + 2 * (num > 0) - 1) * 10 ** -round_to
 
-    elif int(str(num_abs)[0]) == 0:
+    elif 1 > num > 0:
         if round_to == 0:
             if abs(num) % 1 * 10 // 1 > 4:
                 return -1.0 if num < 0 else 1.0
