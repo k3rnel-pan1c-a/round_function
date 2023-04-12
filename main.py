@@ -24,10 +24,13 @@ def round_function(num: float, round_to: int = 0) -> float:
                 return 0.0
         else:
             new_num: float = num * 10 ** round_to
-            if int(abs(new_num)) == 0 and int((abs(new_num) % 1) * 10) == 0 or int(abs(new_num)) == 0 and \
-                    int((abs(new_num) % 1) * 10) < 5:
+            abs_new_num = abs(new_num)
+            if int(abs_new_num) == 0 and int((abs_new_num % 1) * 10) == 0 or int(abs_new_num) == 0 and \
+                    int((abs_new_num % 1) * 10) < 5:
                 return 0.0
+            print(float(
+                (int(new_num + ((not num > 0) - 0.5)) - (2 * (not num > 0) - 1)) * 10 ** - round_to))
             return float(
-                format((int(new_num + ((not num > 0) - 0.5)) - (2 * (not num > 0) - 1)) * 10 ** - round_to, "22.15f"))
+                (int(new_num + ((not num > 0) - 0.5)) - (2 * (not num > 0) - 1)) * 10 ** - round_to)
 
     return (int((10 ** round_to) * num + ((not num > 0) - 0.5)) - (2 * (not num > 0) - 1)) / 10 ** round_to
